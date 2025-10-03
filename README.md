@@ -10,6 +10,8 @@ Then we will use the qubit cal to calibrate some useful qubit circuit in a stand
 
 We want to use the qubit ecal to measure amplifiers. Also look into using nonlinearity of JPA and equations of SQUID to calibrate the power in real watts. Could the JPA be its own noise calibrator by way of a power measurement?  How predictable is that physics?
 
+Finally, this project will involve creating a white paper on how frictionless replication of calibrations can accelerate hardware development cycles across the quantum information technology industry.
+
  - [index.html](index.html)
  - [branch.html](branch.html)
  - [qrcode.html](qrcode.html)
