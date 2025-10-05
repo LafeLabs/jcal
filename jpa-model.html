@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!--
+
+   -->
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAPv/AAD4/wAA+38AAPufAAD77wAAA/AAAPvvAAD7nwAA+38AAPj/AAD7/wAA//8AAP//AAD//wAA" rel="icon" type="image/x-icon">
+
+   <title>JPA Model</title>    
+   <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+   <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>    
+<div id = "scroll">
+    <div id = "qrcode"></div>
+    <h1>JPA Model</h1>    
+    <a href = "control.json">control.json</a>
+    <a href = "index.html">index.html</a>
+    <table id = "controltable"></table>
+    <img src = "graphics/jpa-coax.svg">
+
+</div>
+<style>
+
+</style>
+<script>
+
+control ={};
+control.coax_length = 0.08;//meters
+control.LJmin = 10e-12;//henries
+control.L0 = 10e-12;//henries
+control.C0 = 9.2e-12;//farads
+control.Cin = 1.5e-12;//farads
+control.phi = 0.25;//flux bias in fractions of a flux quantumn
+
+for(parameter in control){
+    var newtr = document.createElement("TR");
+    var newtd1 = document.createElement("TD");
+    newtd1.innerHTML = parameter;
+    newtr.appendChild(newtd1);
+    var newtd2 = document.createElement("TD");
+    var newinput = document.createElement("INPUT");
+    newinput.value = control[parameter];
+    newtd2.appendChild(newinput);
+    newtr.appendChild(newinput);
+    document.getElementById("controltable").appendChild(newtr);
+}
+
+function savecontrol(){
+    data = JSON.stringify(control,null,"   ");
+    var httpc = new XMLHttpRequest();
+    var url = "save-file.php";        
+    httpc.open("POST", url, true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+    httpc.send("data="+data+"&filename=control.json");//send text to save-file.php    
+}
+
+
+codesquaresize = 170;
+marginsize = 40;
+fontsize = 12;
+//globalurl = "http://www.trashrobot.org/qrcode.html";
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+
+</script>
+</body>
+</html>
+
+
+    
+    

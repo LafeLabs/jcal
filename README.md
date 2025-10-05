@@ -1,5 +1,26 @@
 # [J Cal](github.com/LafeLabs/jcal)
 
+ - [jpa-model.html](jpa-model.html)
+ - [data folder](../MM4250_dil_fridge_september_2025-main/)
+ - [planet jupyter](http://localhost:8888)
+ - [edit-web-files.html](edit-web-files.html)
+ - [index.html](index.html)
+
+$$
+L_J = \frac{\Phi_0}{2\pi I_C}
+$$
+
+$$
+L = \frac{L_J}{\cos{\phi}}
+$$
+$$
+\phi = 2\pi\frac{\Phi}{\Phi_0}
+$$
+$$
+\Phi_0 = \frac{h}{2e} \approx 2.07\times 10^{-15} \textrm{ Wb}
+$$
+
+
 Plan: browser front end inputs set flux bias, Ljmin, L0, C0, Cin, coax length, and puts them all into control.json.  coax-jpa.ipynb then takes control.json and creates a one port scikit-rf network object, saves phase and magnitude(which is always 1 in this simplified model) as s11.json, which is passed back to the web page which displays the plotted angle as a function of frequency.  At the same time, real data are plotted for calibrated values of flux in units of phi0 which match the value of the simulation.  We will use this to approach building a model of the system, and eventually using the a fit to a model as the basis of a measurement of various components of the measurement system(launch, coax, connectors).  
 
 We will repeat all of this for a stub on a tee for use in a 2 port cal. We will also repeat all this with the waveguide qubit based power standard.  
@@ -12,12 +33,13 @@ We want to use the qubit ecal to measure amplifiers. Also look into using nonlin
 
 Finally, this project will involve creating a white paper on how frictionless replication of calibrations can accelerate hardware development cycles across the quantum information technology industry.
 
- - [index.html](index.html)
- - [branch.html](branch.html)
+ - [jpa-model.html](jpa-model.html)
+ - [edit-web-files.html](edit-web-files.html)
  - [qrcode.html](qrcode.html)
  - [graphics/](graphics/)
  - [http://localhost/jcal/](http://localhost/jcal/)
- - [http://localhost/jcal/edit-readme.html](http://localhost/jcal/edit-readme.html)
+ 
+
 ![](qrcode.png)
 
 ![](graphics/jpa-coax.svg)
