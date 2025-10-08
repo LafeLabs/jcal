@@ -2,7 +2,7 @@
 
  - [jpa-model.html](jpa-model.html)
  - [data folder](../MM4250_dil_fridge_september_2025-main/)
- - [planet jupyter](http://localhost:8888)
+ - [planet jupyter](http://localhost:8888/tree/jcal)
  - [edit-web-files.html](edit-web-files.html)
  - [index.html](index.html)
 
