@@ -9,7 +9,7 @@
  - [index.html](index.html)
 
 $$
-L_J = \frac{\Phi_0}{2\pi I_C}
+L_J = \frac{\Phi_0}{2\pi I_C}   
 $$
 
 $$
