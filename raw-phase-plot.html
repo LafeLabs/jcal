@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>raw phase data</title>
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAZ4efAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREREREREREREAAAAAAAAREQEREREREBERAREREREQEREBEAAAARAREQEQEREBEBERARAQAQEQEREBEBABARAREQEQEREBEBERARAAAAEQEREBERERERAREQEREREREBERAAAAAAAAEREREREREREREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+
+    <!--Stop Google:-->
+<META NAME="robots" CONTENT="noindex,nofollow">
+<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src = "raw-phase-s11.js"></script>
+<script src = "fghz.js"></script>
+</head>
+<body>
+<div id = "qrcode"></div>
+<a HREF="index.html">HOME</a>
+<script>
+
+traceindex = 0;
+mousewheeltrigger = 1;
+function setup() {
+    createCanvas(innerWidth,innerHeight);
+}
+function draw() {
+    if(mousewheeltrigger == 1){
+      //draw
+    clear();
+    background("#9f8767");
+    noFill();
+    stroke(0);
+    strokeWeight(4);
+    beginShape();
+    for(var index = 0; index < fghz.length; index++){
+        vertex(map(index,0,fghz.length,0,width),map(rawphasedata[traceindex][index],-180,180,height,0));
+    }
+    endShape();
+    fill(0);
+    textSize(50);
+    text("index = " + traceindex.toString(), 100, 100);    
+    mousewheeltrigger = 0;
+  }
+}
+
+function mouseWheel(event) {
+  if (event.delta > 0) {
+        traceindex++;
+  } else {
+        traceindex--;
+  }
+  if(traceindex < 0){
+      traceindex = fghz.length - 1;
+  }
+  if(traceindex > fghz.length - 1){
+      traceindex = 0;
+  }
+  mousewheeltrigger = 1;
+  
+  // Uncomment to prevent any default behavior.
+  // return false;
+}
+
+function mouseClicked() {
+}
+
+
+</script>
+<style>
+body{
+    overflow:hidden;
+}
+main{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+</style>
+</body>
+</html>

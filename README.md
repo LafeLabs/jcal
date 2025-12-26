@@ -1,5 +1,7 @@
 # [J Cal](github.com/LafeLabs/jcal)
 
+The data in the folder [jpa-nopump-scan2-s1p/](jpa-nopump-scan2-s1p/) is from the dilution refrigerator run in the SD dil fridge in room 2138 in building 1 at NIST Boulder in September of 2025, specifially from [September 24, 2025](https://github.com/lafefspietz/MM4250_dil_fridge_september_2025/tree/main/data092425-base).  
+
  - [jpa-model.html](jpa-model.html)
  - [data folder](../MM4250_dil_fridge_september_2025-main/)
  - [planet jupyter](http://localhost:8888/tree/jcal)
