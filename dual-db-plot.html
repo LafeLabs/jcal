@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>power data</title>
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAZ4efAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREREREREREREAAAAAAAAREQEREREREBERAREREREQEREBEAAAARAREQEQEREBEBERARAQAQEQEREBEBABARAREQEQEREBEBERARAAAAEQEREBERERERAREQEREREREBERAAAAAAAAEREREREREREREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+
+    <!--Stop Google:-->
+<META NAME="robots" CONTENT="noindex,nofollow">
+<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src = "raw-db-s11.js"></script>
+<script src = "ecal-db-s11.js"></script>
+<script src = "fghz.js"></script>
+</head>
+<body>
+<div id = "qrcode"></div>
+<a HREF="index.html">HOME</a>
+<script>
+
+traceindex = 0;
+mousewheeltrigger = 1;
+function setup() {
+    createCanvas(innerWidth,innerHeight);
+}
+function draw() {
+    if(mousewheeltrigger == 1){
+      //draw
+    clear();
+//    background("#9f8767");
+    background("white");
+    noFill();
+    stroke(0);
+    strokeWeight(4);
+    line(0,map(0,-20,10,height,0),width,map(0,-20,10,height,0));
+    line(0,map(-10,-20,10,height,0),width,map(-10,-20,10,height,0));
+
+    for(ghz = 4;ghz < 9;ghz++){
+        line(map(ghz,fghz[0],fghz[fghz.length - 1],0,width),0,map(ghz,fghz[0],fghz[fghz.length - 1],0,width),height);
+    }
+
+    strokeWeight(2);
+    line(0,map(5,-20,10,height,0),width,map(5,-20,10,height,0));
+    line(0,map(-5,-20,10,height,0),width,map(-5,-20,10,height,0));
+    line(0,map(-15,-20,10,height,0),width,map(-15,-20,10,height,0));
+    line(0,map(-25,-20,10,height,0),width,map(-25,-20,10,height,0));
+
+
+    stroke("red");
+    strokeWeight(4);
+    beginShape();
+    for(var index = 0; index < fghz.length; index++){
+        vertex(map(index,0,fghz.length,0,width),map(rawdbdata[traceindex][index],-20,10,height,0));
+    }
+    endShape();
+    stroke("blue");
+    strokeWeight(4);
+    beginShape();
+    for(var index = 0; index < fghz.length; index++){
+        vertex(map(index,0,fghz.length,0,width),map(ecaldbdata[traceindex][index],-20,10,height,0));
+    }
+    endShape();
+    fill(0);
+    stroke(0);
+    strokeWeight(1);
+    
+    textSize(50);
+    text("index = " + traceindex.toString(), 100, 100);    
+
+    textSize(30);
+    text("0 dB",10,map(0,-20,10,height,0) - 10);    
+    text("5 dB",10,map(5,-20,10,height,0) - 10);    
+    text("10 dB",10,map(10,-20,10,height,0) - 10);    
+    text("15 dB",10,map(15,-20,10,height,0) - 10);    
+    text("-5 dB",10,map(-5,-20,10,height,0) - 10);    
+    text("-10 dB",10,map(-10,-20,10,height,0) - 10);    
+    text("-15 dB",10,map(-15,-20,10,height,0) - 10);    
+    text("-20 dB",10,map(-20,-20,10,height,0) - 10);    
+    text("-25 dB",10,map(-25,-20,10,height,0) - 10);    
+
+    for(ghz = 4;ghz < 9;ghz++){
+        text(ghz.toString() + " GHz",map(ghz,fghz[0],fghz[fghz.length - 1],0,width) + 10,30);
+    }
+    mousewheeltrigger = 0;
+  }
+}
+
+function mouseWheel(event) {
+  if (event.delta > 0) {
+        traceindex++;
+  } else {
+        traceindex--;
+  }
+  if(traceindex < 0){
+      traceindex = fghz.length - 1;
+  }
+  if(traceindex > fghz.length - 1){
+      traceindex = 0;
+  }
+  mousewheeltrigger = 1;
+  
+  // Uncomment to prevent any default behavior.
+  // return false;
+}
+
+function mouseClicked() {
+}
+
+
+</script>
+<style>
+body{
+    overflow:hidden;
+}
+main{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+</style>
+</body>
+</html>

@@ -6,6 +6,10 @@
         "delete-php-files.html",
         "delete-text-files.html",
         "delete-web-files.html",
+        "dual-db-plot.html",
+        "ecal-coax-phase.html",
+        "ecal-db-plot.html",
+        "ecal-phase-plot.html",
         "edit-index.html",
         "edit-markdown-files.html",
         "edit-php-files.html",
@@ -18,20 +22,31 @@
         "organic-web-home.html",
         "qrcode.html",
         "quantum-calibrations.html",
+        "raw-db-plot.html",
+        "raw-phase-plot.html",
         "read-markdown-files.html",
         "read-markdown-latex-files.html",
         "read-text-files.html"
     ],
     "json": [
         "control.json",
-        "dna.json"
+        "dna.json",
+        "model.json"
     ],
     "css": [
         "markdown.css"
     ],
-    "js": [],
+    "js": [
+        "ecal-coax-phase-s11.js",
+        "ecal-db-s11.js",
+        "ecal-phase-s11.js",
+        "fghz.js",
+        "raw-db-s11.js",
+        "raw-phase-s11.js"
+    ],
     "md": [
-        "README.md"
+        "README.md",
+        "files.md"
     ],
     "text": [],
     "php": [
