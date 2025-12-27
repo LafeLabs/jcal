@@ -11,6 +11,7 @@
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src = "raw-db-s11.js"></script>
 <script src = "ecal-db-s11.js"></script>
+<script src = "biaswave.js"></script>
 <script src = "fghz.js"></script>
 </head>
 <body>
@@ -66,7 +67,9 @@ function draw() {
     
     textSize(50);
     text("index = " + traceindex.toString(), 100, 100);    
+    text("flux bias = " + (Math.round(biaswave[traceindex]*1000)/1000).toString() + " V = " + ((Math.round(1000*biaswave[traceindex]/1.8))/1000).toString() + " quanta", 100, height-100);    
 
+    
     textSize(30);
     text("0 dB",10,map(0,-20,10,height,0) - 10);    
     text("5 dB",10,map(5,-20,10,height,0) - 10);    
@@ -77,11 +80,22 @@ function draw() {
     text("-15 dB",10,map(-15,-20,10,height,0) - 10);    
     text("-20 dB",10,map(-20,-20,10,height,0) - 10);    
     text("-25 dB",10,map(-25,-20,10,height,0) - 10);    
-
     for(ghz = 4;ghz < 9;ghz++){
         text(ghz.toString() + " GHz",map(ghz,fghz[0],fghz[fghz.length - 1],0,width) + 10,30);
     }
+
+    text("RAW",width-190,110);    
+    text("ECAL",width-190,160);    
+
+    stroke("red");
+    strokeWeight(6);
+    line(width - 300,100,width-200,100);
     mousewheeltrigger = 0;
+    stroke("blue");
+    strokeWeight(6);
+    line(width - 300,150,width-200,150);
+    mousewheeltrigger = 0;
+
   }
 }
 
