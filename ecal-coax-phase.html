@@ -11,6 +11,7 @@
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src = "ecal-coax-phase-s11.js"></script>
 <script src = "fghz.js"></script>
+<script src = "biaswave.js"></script>
 </head>
 <body>
 <div id = "qrcode"></div>
@@ -24,22 +25,38 @@ function setup() {
 }
 function draw() {
     if(mousewheeltrigger == 1){
-      //draw
-    clear();
-    background("#9f8767");
-    noFill();
-    stroke(0);
-    strokeWeight(4);
-    beginShape();
-    for(var index = 0; index < fghz.length; index++){
-        vertex(map(index,0,fghz.length,0,width),map(ecalcoaxphasedata[traceindex][index],-180,180,height,0));
+        clear();
+        background("white");
+        noFill();
+        stroke(0);
+        strokeWeight(4);
+        line(0,0.25*height,width,0.25*height);
+        line(0,0.5*height,width,0.5*height);
+        line(0,0.75*height,width,0.75*height);
+        for(ghz = 4;ghz < 9;ghz++){
+            line(map(ghz,fghz[0],fghz[fghz.length - 1],0,width),0,map(ghz,fghz[0],fghz[fghz.length - 1],0,width),height);
+        }        
+        stroke("purple");
+        beginShape();
+        for(var index = 0; index < fghz.length; index++){
+            vertex(map(index,0,fghz.length,0,width),map(ecalcoaxphasedata[traceindex][index],-180,180,height,0));
+        }
+        endShape();
+        stroke(0);
+        fill(0);
+        textSize(50);
+        text("index = " + traceindex.toString(), 100, 100);    
+        textSize(30);
+        strokeWeight(1);
+        for(ghz = 4;ghz < 9;ghz++){
+            text(ghz.toString() + " GHz",map(ghz,fghz[0],fghz[fghz.length - 1],0,width) + 10,30);
+        }
+        text("0 deg",10,0.5*height - 15);
+        text("-90 deg",10,0.75*height - 15);
+        text("90 deg",10,0.25*height - 15);
+
+        mousewheeltrigger = 0;
     }
-    endShape();
-    fill(0);
-    textSize(50);
-    text("index = " + traceindex.toString(), 100, 100);    
-    mousewheeltrigger = 0;
-  }
 }
 
 function mouseWheel(event) {
