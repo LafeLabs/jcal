@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>power data</title>
+    <title>raw phase data</title>
 <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAZ4efAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREREREREREREAAAAAAAAREQEREREREBERAREREREQEREBEAAAARAREQEQEREBEBERARAQAQEQEREBEBABARAREQEQEREBEBERARAAAAEQEREBERERERAREQEREREREBERAAAAAAAAEREREREREREREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
 
     <!--Stop Google:-->
 <META NAME="robots" CONTENT="noindex,nofollow">
 <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src = "raw-db-s11.js"></script>
-<script src = "ecal-db-s11.js"></script>
-<script src = "biaswave.js"></script>
+<script src = "ecal-coax-phase-s11.js"></script>
+<script src = "ecal-phase-s11.js"></script>
 <script src = "fghz.js"></script>
+<script src = "biaswave.js"></script>
 </head>
 <body>
 <div id = "qrcode"></div>
-<a id = "homelink" HREF="index.html">HOME</a>
+<a id ="homelink" HREF="index.html">HOME</a>
 <script>
 animate = false;
 traceindex = 0;
@@ -25,148 +25,105 @@ function setup() {
     createCanvas(innerWidth,innerHeight);
 }
 function draw() {
+
     if(animate){
         clear();
         background("white");
         noFill();
         stroke(0);
         strokeWeight(4);
-        line(0,map(0,-20,10,height,0),width,map(0,-20,10,height,0));
-        line(0,map(-10,-20,10,height,0),width,map(-10,-20,10,height,0));
-        
+        line(0,0.25*height,width,0.25*height);
+        line(0,0.5*height,width,0.5*height);
+        line(0,0.75*height,width,0.75*height);
         for(ghz = 4;ghz < 9;ghz++){
             line(map(ghz,fghz[0],fghz[fghz.length - 1],0,width),0,map(ghz,fghz[0],fghz[fghz.length - 1],0,width),height);
-        }
-        
-        strokeWeight(2);
-        line(0,map(5,-20,10,height,0),width,map(5,-20,10,height,0));
-        line(0,map(-5,-20,10,height,0),width,map(-5,-20,10,height,0));
-        line(0,map(-15,-20,10,height,0),width,map(-15,-20,10,height,0));
-        line(0,map(-25,-20,10,height,0),width,map(-25,-20,10,height,0));
-        
-        
-        stroke("red");
-        strokeWeight(4);
-        beginShape();
-        for(var index = 0; index < fghz.length; index++){
-            vertex(map(index,0,fghz.length,0,width),map(rawdbdata[traceindex][index],-20,10,height,0));
-        }
-        endShape();
+        }        
+
         stroke("blue");
-        strokeWeight(4);
         beginShape();
         for(var index = 0; index < fghz.length; index++){
-            vertex(map(index,0,fghz.length,0,width),map(ecaldbdata[traceindex][index],-20,10,height,0));
+            vertex(map(index,0,fghz.length,0,width),map(ecalphasedata[traceindex][index],-180,180,height,0));
         }
         endShape();
-        fill(0);
+
+        stroke("purple");
+        beginShape();
+        for(var index = 0; index < fghz.length; index++){
+            vertex(map(index,0,fghz.length,0,width),map(ecalcoaxphasedata[traceindex][index],-180,180,height,0));
+        }
+        endShape();
         stroke(0);
+        fill(0);
         strokeWeight(1);
-        
         textSize(50);
         text("index = " + traceindex.toString(), 100, height - 150);    
         text("flux bias = " + (Math.round(biaswave[traceindex]*1000)/1000).toString() + " V", 100, height-100);    
         text("= " + ((Math.round(1000*biaswave[traceindex]/1.8))/1000).toString() + " flux quanta", 300, height-50);    
 
-        
-        
         textSize(30);
-        text("0 dB",10,map(0,-20,10,height,0) - 10);    
-        text("5 dB",10,map(5,-20,10,height,0) - 10);    
-        text("10 dB",10,map(10,-20,10,height,0) - 10);    
-        text("15 dB",10,map(15,-20,10,height,0) - 10);    
-        text("-5 dB",10,map(-5,-20,10,height,0) - 10);    
-        text("-10 dB",10,map(-10,-20,10,height,0) - 10);    
-        text("-15 dB",10,map(-15,-20,10,height,0) - 10);    
-        text("-20 dB",10,map(-20,-20,10,height,0) - 10);    
-        text("-25 dB",10,map(-25,-20,10,height,0) - 10);    
         for(ghz = 4;ghz < 9;ghz++){
             text(ghz.toString() + " GHz",map(ghz,fghz[0],fghz[fghz.length - 1],0,width) + 10,30);
         }
-        
-        text("RAW",width-190,110);    
-        text("ECAL",width-190,160);    
-        
-        stroke("red");
-        strokeWeight(6);
-        line(width - 300,100,width-200,100);
-        mousewheeltrigger = 0;
-        stroke("blue");
-        strokeWeight(6);
-        line(width - 300,150,width-200,150);
-        
-        
+        text("0 deg",10,0.5*height - 15);
+        text("-90 deg",10,0.75*height - 15);
+        text("90 deg",10,0.25*height - 15);
         traceindex++;
         if(traceindex > fghz.length - 1){
             traceindex = 0;
         }
-   
+
     }
+
     if(mousewheeltrigger == 1 && !animate){
         clear();
         background("white");
         noFill();
         stroke(0);
         strokeWeight(4);
-        line(0,map(0,-20,10,height,0),width,map(0,-20,10,height,0));
-        line(0,map(-10,-20,10,height,0),width,map(-10,-20,10,height,0));
-        
+        line(0,0.25*height,width,0.25*height);
+        line(0,0.5*height,width,0.5*height);
+        line(0,0.75*height,width,0.75*height);
         for(ghz = 4;ghz < 9;ghz++){
             line(map(ghz,fghz[0],fghz[fghz.length - 1],0,width),0,map(ghz,fghz[0],fghz[fghz.length - 1],0,width),height);
-        }
-        
-        strokeWeight(2);
-        line(0,map(5,-20,10,height,0),width,map(5,-20,10,height,0));
-        line(0,map(-5,-20,10,height,0),width,map(-5,-20,10,height,0));
-        line(0,map(-15,-20,10,height,0),width,map(-15,-20,10,height,0));
-        line(0,map(-25,-20,10,height,0),width,map(-25,-20,10,height,0));
-        
-        
-        stroke("red");
-        strokeWeight(4);
-        beginShape();
-        for(var index = 0; index < fghz.length; index++){
-            vertex(map(index,0,fghz.length,0,width),map(rawdbdata[traceindex][index],-20,10,height,0));
-        }
-        endShape();
+        }        
+
         stroke("blue");
-        strokeWeight(4);
         beginShape();
         for(var index = 0; index < fghz.length; index++){
-            vertex(map(index,0,fghz.length,0,width),map(ecaldbdata[traceindex][index],-20,10,height,0));
+            vertex(map(index,0,fghz.length,0,width),map(ecalphasedata[traceindex][index],-180,180,height,0));
         }
         endShape();
-        fill(0);
+
+        stroke("purple");
+        beginShape();
+        for(var index = 0; index < fghz.length; index++){
+            vertex(map(index,0,fghz.length,0,width),map(ecalcoaxphasedata[traceindex][index],-180,180,height,0));
+        }
+        endShape();
         stroke(0);
+        fill(0);
         strokeWeight(1);
-        
         textSize(50);
         text("index = " + traceindex.toString(), 100, height - 150);    
         text("flux bias = " + (Math.round(biaswave[traceindex]*1000)/1000).toString() + " V", 100, height-100);    
         text("= " + ((Math.round(1000*biaswave[traceindex]/1.8))/1000).toString() + " flux quanta", 300, height-50);    
 
-        
         textSize(30);
-        text("0 dB",10,map(0,-20,10,height,0) - 10);    
-        text("5 dB",10,map(5,-20,10,height,0) - 10);    
-        text("10 dB",10,map(10,-20,10,height,0) - 10);    
-        text("15 dB",10,map(15,-20,10,height,0) - 10);    
-        text("-5 dB",10,map(-5,-20,10,height,0) - 10);    
-        text("-10 dB",10,map(-10,-20,10,height,0) - 10);    
-        text("-15 dB",10,map(-15,-20,10,height,0) - 10);    
-        text("-20 dB",10,map(-20,-20,10,height,0) - 10);    
-        text("-25 dB",10,map(-25,-20,10,height,0) - 10);    
         for(ghz = 4;ghz < 9;ghz++){
             text(ghz.toString() + " GHz",map(ghz,fghz[0],fghz[fghz.length - 1],0,width) + 10,30);
         }
-        
-        text("RAW",width-190,110);    
-        text("ECAL",width-190,160);    
+        text("0 deg",10,0.5*height - 15);
+        text("-90 deg",10,0.75*height - 15);
+        text("90 deg",10,0.25*height - 15);
+
+        text("ECAL",width-190,110);    
+        text("ECAL-COAX",width-190,160);    
         strokeWeight(6);
-        stroke("red");
-        line(width - 300,100,width-200,100);
         stroke("blue");
+        line(width - 300,100,width-200,100);
+        stroke("purple");
         line(width - 300,150,width-200,150);
+
 
         mousewheeltrigger = 0;
     }
@@ -193,8 +150,6 @@ function mouseWheel(event) {
 function mouseClicked() {
     animate = !animate;
 }
-
-
 </script>
 <style>
 #homelink{

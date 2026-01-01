@@ -1,8 +1,8 @@
 {
-   "coax_length": 0.08,
+   "coax_length": 0.001,
    "LJmin": 1e-11,
    "L0": 1e-11,
    "C0": 9.2e-12,
    "Cin": 1.5e-12,
-   "phi": 0.25
+   "phi": 0.2
 }

@@ -35,6 +35,7 @@
 
 # JAVASCRIPT FILES
 
+ - [biaswave.js](biaswave.js)
  - [ecal-coax-phase-s11.js](ecal-coax-phase-s11.js)
  - [ecal-db-s11.js](ecal-db-s11.js)
  - [ecal-phase-s11.js](ecal-phase-s11.js)
@@ -44,6 +45,7 @@
 
 # JSON FILES
 
+ - [biaswave.json](biaswave.json)
  - [control.json](control.json)
  - [dna.json](dna.json)
  - [model.json](model.json)

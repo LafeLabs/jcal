@@ -1,5 +1,9 @@
 # [J Cal](github.com/LafeLabs/jcal)
 
+
+## [dual-db-plot.html](dual-db-plot.html)
+## [ecal-dual-phase.html](ecal-dual-phase.html)
+
 ## to do
 
  - make a phase plot with click to cycle to next trace from uncal to ecal to ecal with coax correction
@@ -21,6 +25,7 @@
 The data in the folder [jpa-nopump-scan2-s1p/](jpa-nopump-scan2-s1p/) is from the dilution refrigerator run in the SD dil fridge in room 2138 in building 1 at NIST Boulder in September of 2025, specifially from [September 24, 2025](https://github.com/lafefspietz/MM4250_dil_fridge_september_2025/tree/main/data092425-base).  
  
  - [dual-db-plot.html](dual-db-plot.html)
+ - [ecal-dual-phase.html](ecal-dual-phase.html)
  - [raw-phase-plot.html](raw-phase-plot.html)
  - [ecal-phase-plot.html](ecal-phase-plot.html)
  - [raw-db-plot.html](raw-db-plot.html)

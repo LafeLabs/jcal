@@ -29,6 +29,7 @@
         "read-text-files.html"
     ],
     "json": [
+        "biaswave.json",
         "control.json",
         "dna.json",
         "model.json"
@@ -37,6 +38,7 @@
         "markdown.css"
     ],
     "js": [
+        "biaswave.js",
         "ecal-coax-phase-s11.js",
         "ecal-db-s11.js",
         "ecal-phase-s11.js",

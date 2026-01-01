@@ -23,29 +23,61 @@
 
 </div>
 <style>
-
+body{
+    overflow:hidden;
+}
+main{
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:-2;
+}
 </style>
 <script>
 
 control ={};
+/*
 control.coax_length = 0.08;//meters
 control.LJmin = 10e-12;//henries
 control.L0 = 10e-12;//henries
 control.C0 = 9.2e-12;//farads
 control.Cin = 1.5e-12;//farads
 control.phi = 0.25;//flux bias in fractions of a flux quantumn
+*/
+loadcontrol();
 
-for(parameter in control){
-    var newtr = document.createElement("TR");
-    var newtd1 = document.createElement("TD");
-    newtd1.innerHTML = parameter;
-    newtr.appendChild(newtd1);
-    var newtd2 = document.createElement("TD");
-    var newinput = document.createElement("INPUT");
-    newinput.value = control[parameter];
-    newtd2.appendChild(newinput);
-    newtr.appendChild(newinput);
-    document.getElementById("controltable").appendChild(newtr);
+function loadcontrol(){
+    var httpc = new XMLHttpRequest();
+    httpc.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            control = JSON.parse(this.responseText);
+            document.getElementById("controltable").innerHTML = "";
+            for(parameter in control){
+                var newtr = document.createElement("TR");
+                var newtd1 = document.createElement("TD");
+                newtd1.innerHTML = parameter;
+                newtr.appendChild(newtd1);
+                var newtd2 = document.createElement("TD");
+                var newinput = document.createElement("INPUT");
+                newinput.value = control[parameter];
+                newinput.onchange = function(){
+                    localparam = this.parentElement.getElementsByTagName("TD")[0].innerHTML;
+                    control[localparam] = parseFloat(this.value);
+                    
+                    console.log(localparam);
+                    console.log(control[localparam]);
+                    savecontrol();
+  //                  loadmodel();
+
+                }
+                newtd2.appendChild(newinput);
+                newtr.appendChild(newinput);
+                document.getElementById("controltable").appendChild(newtr);
+            }
+        }
+    };
+    httpc.open("GET", "load-file.php?filename=control.json", true);
+    httpc.send();    
 }
 
 function savecontrol(){
@@ -71,6 +103,48 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
 	colorLight : "#ffffff",
 	correctLevel : QRCode.CorrectLevel.H
 });
+
+function setup() {
+    createCanvas(innerWidth,innerHeight);
+}
+function draw() {
+
+}
+
+modeldata = {};
+loadmodel();
+function loadmodel(){
+    var httpc = new XMLHttpRequest();
+    httpc.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            modeldata = JSON.parse(this.responseText);
+            plotmodel();
+        }
+    };
+    httpc.open("GET", "load-file.php?filename=model.json", true);
+    httpc.send();    
+}
+function plotmodel(){
+    clear();
+    background("white");
+    noFill();
+    stroke(0);
+    strokeWeight(4);
+    line(0,0.25*height,width,0.25*height);
+    line(0,0.5*height,width,0.5*height);
+    line(0,0.75*height,width,0.75*height);
+    for(ghz = 4;ghz < 9;ghz++){
+        line(map(ghz,modeldata.fghz[0],modeldata.fghz[modeldata.fghz.length - 1],0,width),0,map(ghz,modeldata.fghz[0],modeldata.fghz[modeldata.fghz.length - 1],0,width),height);
+    }        
+
+    stroke("blue");
+    beginShape();
+    for(var index = 0; index < modeldata.fghz.length; index++){
+        vertex(map(index,0,modeldata.fghz.length,0,width),map(modeldata.phase[index],-180,180,height,0));
+    }
+    endShape();
+    
+}
 
 </script>
 </body>
