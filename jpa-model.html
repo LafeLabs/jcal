@@ -15,9 +15,7 @@
 <body>    
 <div id = "scroll">
     <div id = "qrcode"></div>
-    <h1>JPA Model</h1>    
-    <a href = "control.json">control.json</a>
-    <a href = "index.html">index.html</a>
+    <a href = "index.html">HOME</a>
     <table id = "controltable"></table>
     <img src = "graphics/jpa-coax.svg">
 
@@ -25,6 +23,7 @@
 <style>
 body{
     overflow:hidden;
+    font-family:arial;
 }
 main{
     position:absolute;
@@ -46,6 +45,8 @@ control.phi = 0.25;//flux bias in fractions of a flux quantumn
 */
 loadcontrol();
 
+globalparam = "";
+
 function loadcontrol(){
     var httpc = new XMLHttpRequest();
     httpc.onreadystatechange = function() {
@@ -63,12 +64,11 @@ function loadcontrol(){
                 newinput.onchange = function(){
                     localparam = this.parentElement.getElementsByTagName("TD")[0].innerHTML;
                     control[localparam] = parseFloat(this.value);
-                    
-                    console.log(localparam);
-                    console.log(control[localparam]);
                     savecontrol();
-  //                  loadmodel();
 
+                }
+                newinput.onclick = function(){
+                    globalparam = this.parentElement.getElementsByTagName("TD")[0].innerHTML;
                 }
                 newtd2.appendChild(newinput);
                 newtr.appendChild(newinput);
@@ -104,15 +104,19 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
 	correctLevel : QRCode.CorrectLevel.H
 });
 
+modeldata = {};
+loadmodel();
+
+
 function setup() {
     createCanvas(innerWidth,innerHeight);
 }
 function draw() {
 
+    loadmodel();
+
 }
 
-modeldata = {};
-loadmodel();
 function loadmodel(){
     var httpc = new XMLHttpRequest();
     httpc.onreadystatechange = function() {
@@ -136,15 +140,48 @@ function plotmodel(){
     for(ghz = 4;ghz < 9;ghz++){
         line(map(ghz,modeldata.fghz[0],modeldata.fghz[modeldata.fghz.length - 1],0,width),0,map(ghz,modeldata.fghz[0],modeldata.fghz[modeldata.fghz.length - 1],0,width),height);
     }        
-
+    
+    strokeWeight(4);
+    
     stroke("blue");
     beginShape();
     for(var index = 0; index < modeldata.fghz.length; index++){
         vertex(map(index,0,modeldata.fghz.length,0,width),map(modeldata.phase[index],-180,180,height,0));
     }
     endShape();
+    stroke(0);
+    strokeWeight(1);
+    fill(0);
+    textSize(30);
+   text(globalparam + " = " + control[globalparam],width/2,100);
     
 }
+
+function mouseWheel(event) {
+  if (event.delta > 0) {
+    if(globalparam.length > 0){
+        control[globalparam]  = 1.01*control[globalparam];
+        savecontrol();
+    }
+  } else {
+        control[globalparam]  = control[globalparam]/1.01;
+        savecontrol();
+  }
+  
+  //update the current input table value
+  rows = document.getElementById("controltable").getElementsByTagName("TR");
+  for(var index = 0;index < rows.length;index++){
+      var localparam = rows[index].getElementsByTagName("TD")[0].innerHTML;
+      if(localparam == globalparam){
+          rows[index].getElementsByTagName("input")[0].value = control[globalparam];
+      }
+  }
+  mousewheeltrigger = 1;
+  
+  // Uncomment to prevent any default behavior.
+  // return false;
+}
+
 
 </script>
 </body>
