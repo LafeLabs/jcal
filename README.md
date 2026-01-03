@@ -4,6 +4,7 @@
 ## [dual-db-plot.html](dual-db-plot.html)
 ## [ecal-dual-phase.html](ecal-dual-phase.html)
 ## [edit-web-files.html](edit-web-files.html)
+## [http://localhost:8888/notebooks/jcal/jpa-model.ipynb](http://localhost:8888/notebooks/jcal/jpa-model.ipynb)
 
 ## to do
 

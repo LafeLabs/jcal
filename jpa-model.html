@@ -6,11 +6,15 @@
 
    -->
 
-<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAPv/AAD4/wAA+38AAPufAAD77wAAA/AAAPvvAAD7nwAA+38AAPj/AAD7/wAA//8AAP//AAD//wAA" rel="icon" type="image/x-icon">
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAPv/AAD4/wAA+38AAPufAAD77wAAA/AAAPvvAAD7nwAA+38AAPj/AAD7/wAA//8AAP//AAD//wAA" rel="icon" type="image/x-icon">
 
    <title>JPA Model</title>    
    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
    <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src = "ecal-phase-s11.js"></script>
+    <script src = "fghz.js"></script>
+    <script src = "biaswave.js"></script>
+   
 </head>
 <body>    
 <div id = "scroll">
@@ -33,6 +37,8 @@ main{
 }
 </style>
 <script>
+traceindex = 0;
+datatracemode = true;
 
 control ={};
 /*
@@ -144,30 +150,60 @@ function plotmodel(){
     
     strokeWeight(4);
     
+    stroke("green");
+    beginShape();
+    for(var index = 0; index < fghz.length; index++){
+        vertex(map(index,0,fghz.length,0,width),map(ecalphasedata[traceindex][index],-180,180,height,0));
+    }
+    endShape();
+    
     stroke("blue");
     beginShape();
     for(var index = 0; index < modeldata.fghz.length; index++){
         vertex(map(index,0,modeldata.fghz.length,0,width),map(modeldata.phase[index],-180,180,height,0));
     }
     endShape();
+
     stroke(0);
     strokeWeight(1);
     fill(0);
     textSize(30);
-   text(globalparam + " = " + control[globalparam],width/2,100);
+    if(globalparam.length > 0){
+        text(globalparam + " = " + control[globalparam],width/2,100);
+    }
     
 }
 
 function mouseWheel(event) {
-  if (event.delta > 0) {
-    if(globalparam.length > 0){
-        control[globalparam]  = 1.01*control[globalparam];
-        savecontrol();
+    if(!datatracemode){
+      if (event.delta > 0) {
+        if(globalparam.length > 0){
+            control[globalparam]  = 1.01*control[globalparam];
+            savecontrol();
+        }
+      }
+      else {
+        if(globalparam.length > 0){
+            control[globalparam]  = control[globalparam]/1.01;
+            savecontrol();
+        }
+      }
     }
-  } else {
-        control[globalparam]  = control[globalparam]/1.01;
-        savecontrol();
-  }
+    else{
+      if (event.delta > 0) {
+        traceindex++;
+        if(traceindex > fghz.length - 1){
+            traceindex = 0;
+        }
+      }
+      else {
+        traceindex--;
+        if(traceindex < 0){
+            traceindex = fghz.length - 1;
+        }
+      }
+        
+    }
   
   //update the current input table value
   rows = document.getElementById("controltable").getElementsByTagName("TR");
@@ -184,6 +220,15 @@ function mouseWheel(event) {
 }
 
 
+function mouseClicked() {
+    
+}
+
+function keyPressed() {
+  if (key === 'd') {
+     datatracemode = !datatracemode;
+  }
+}
 </script>
 </body>
 </html>
