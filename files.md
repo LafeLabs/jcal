@@ -10,6 +10,7 @@
  - [dual-db-plot.html](dual-db-plot.html)
  - [ecal-coax-phase.html](ecal-coax-phase.html)
  - [ecal-db-plot.html](ecal-db-plot.html)
+ - [ecal-dual-phase.html](ecal-dual-phase.html)
  - [ecal-phase-plot.html](ecal-phase-plot.html)
  - [edit-index.html](edit-index.html)
  - [edit-markdown-files.html](edit-markdown-files.html)

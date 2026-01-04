@@ -22,16 +22,27 @@
     <a href = "index.html">HOME</a>
     <table id = "controltable"></table>
     <img src = "graphics/jpa-coax.svg">
-
 </div>
 <style>
 body{
     overflow:hidden;
     font-family:arial;
 }
-main{
+#scroll{
     position:absolute;
     left:0px;
+    top:0px;
+    overflow:scroll;
+    bottom:0px;
+}
+#scroll img{
+    max-width:50%;
+    display:block;
+    margin:auto;
+}
+main{
+    position:absolute;
+    right:0px;
     top:0px;
     z-index:-2;
 }
@@ -116,7 +127,7 @@ loadmodel();
 
 
 function setup() {
-    createCanvas(innerWidth,innerHeight);
+    createCanvas(innerHeight,innerHeight);
 }
 function draw() {
 

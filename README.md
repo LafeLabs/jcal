@@ -1,5 +1,6 @@
 # [J Cal](github.com/LafeLabs/jcal)
 
+## [index.html](index.html)
 ## [jpa-model.html](jpa-model.html)
 ## [dual-db-plot.html](dual-db-plot.html)
 ## [ecal-dual-phase.html](ecal-dual-phase.html)
