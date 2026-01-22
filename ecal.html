@@ -1,0 +1,168 @@
+ <!doctype html>
+<html>
+<head>
+ <!-- 
+
+-->
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAgHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREAEQEAEBERAAEAAQAQEAEAAQABABAQARABAAEREBABAAEAAQAQEAEAAQABABAQAREAEQARABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD//wAAGWgAAHdrAAB3awAANwsAAHdrAAB3awAAGZsAAP//AAD//wAA//8AAP//AAD//wAA" rel="icon" type="image/x-icon">
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true,
+        processClass: "mathjax",
+        ignoreClass: "no-mathjax"
+        }
+    });//			MathJax.Hub.Typeset();//tell Mathjax to update the math
+</script>
+-->
+<script src = "ecaldata.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+<title>ECAL</title>
+</head>
+<body>
+<div id = "qrcode"></div>
+<table id = "portselecttable">
+    <tr>
+        <td class = "button">1</td>
+        <td class = "button">2</td>
+        <td class = "button">3</td>
+        <td class = "button">4</td>
+        <td class = "button">5</td>
+        <td class = "button">6</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class = "button" id = "shortbutton">ECAL SHORT</td>
+        <TD class = "button">ECAL OPEN</TD>
+        <TD class = "button">ECAL LOAD</TD>
+    </tr>
+</table>
+<TABLE>
+    <TR>
+        <TD class = "button">PHASE/MAG</TD>
+        <TD class = "button">ECAL ON/OFF</TD>
+    </TR>
+</TABLE>
+<script>
+
+function setup() {
+    squarewidth = 100;
+    if(innerWidth > innerHeight){
+        squarewidth = innerHeight - 10;
+    }
+    else{
+        squarewidth = innerWidth - 10;
+    }
+    createCanvas(squarewidth,squarewidth);
+    phasewave = ecaldata.short_phase;
+    clear();
+    background("white");
+    noFill();
+    strokeWeight(4);
+    stroke(0);
+    line(0,map(-100000,-300000,180,height,0),width,map(-100000,-300000,180,height,0));
+    line(0,map(-200000,-300000,180,height,0),width,map(-200000,-300000,180,height,0));    
+    fill(0);
+    strokeWeight(1);
+    textSize(30);
+    text("- 100,000 deg",width - 200,0.33*height - 15);
+    text("- 200,000 deg",width - 200,0.66*height - 15);
+
+    noFill();
+    strokeWeight(4);
+    stroke("red");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.short_phase[index],-300000,180,height,0));
+    }
+    endShape();
+    stroke("green");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.open_phase[index],-300000,180,height,0));
+    }
+    endShape();    
+    stroke("blue");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.load_phase[index],-300000,180,height,0));
+    }
+    endShape();    
+
+    
+}
+function draw(){
+    
+}
+
+document.getElementById("shortbutton").onclick = function(){
+    phasewave = ecaldata.short_phase;
+    plotstandardmag();
+}
+
+function plotcurve(){
+    clear();
+    background("white");
+    noFill();
+    stroke(0);
+    strokeWeight(4);
+    
+}
+
+
+codesquaresize = 170;
+marginsize = 40;
+fontsize = 12;
+//globalurl = "http://www.trashrobot.org/qrcode.html";
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>
+<style>
+body{
+    font-family:Arial;
+    overflow:hidden;
+}
+main{
+    position:absolute;
+    right:2px;
+    top:2px;
+    z-index:-1;
+}
+main canvas{
+    border:solid;
+}
+.button{
+    border:solid;
+    border-radius:1em;
+    font-size:2em;
+    padding:0.5em 0.5em 0.5em 0.5em;
+    border-width:5px;
+    cursor:pointer;
+}
+#portselecttable .button{
+    width:2em;
+    text-align:center;
+}
+.button:hover{
+    background-color:green;
+}
+.button:active{
+    background-color:yellow;
+}
+</style>
+
+</body>
+</html>
