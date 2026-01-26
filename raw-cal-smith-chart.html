@@ -1,0 +1,148 @@
+ <!doctype html>
+<html>
+<head>
+ <!-- 
+-->
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAgHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREAEQEAEBERAAEAAQAQEAEAAQABABAQARABAAEREBABAAEAAQAQEAEAAQABABAQAREAEQARABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD//wAAGWgAAHdrAAB3awAANwsAAHdrAAB3awAAGZsAAP//AAD//wAA//8AAP//AAD//wAA" rel="icon" type="image/x-icon">
+
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true,
+        processClass: "mathjax",
+        ignoreClass: "no-mathjax"
+        }
+    });//			MathJax.Hub.Typeset();//tell Mathjax to update the math
+</script>
+-->
+<script src = "ecaldata2.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+<title>ECAL</title>
+</head>
+<body>
+<div id = "qrcode"></div>
+<script>
+
+
+cal = false;
+phase = true;
+ecal = false;
+
+
+function setup() {
+    squarewidth = 100;
+    if(innerWidth > innerHeight){
+        squarewidth = innerHeight - 10;
+    }
+    else{
+        squarewidth = innerWidth - 10;
+    }
+    createCanvas(squarewidth,squarewidth);
+    frameRate(5);
+}
+
+findex = 3000; 
+function draw(){
+    clear();
+    background("white");
+    noFill();
+    strokeWeight(4);
+    stroke(0);   
+    circle(width/2,height/2,width);
+    line(width/2,0,width/2,height);
+    line(0,height/2,width,height/2);
+//    circle(3*width/4,height/2,width/2);
+  //  circle(7*width/8,height/2,width/4);
+    
+    textSize(20);
+    strokeWeight(1);
+    fill("red");
+    stroke("red");
+    shortmag = map(ecaldata.short_linmag[findex],0,1,0,width/2);
+    circle(width/2 + shortmag*Math.cos(Math.PI*ecaldata.short_phase[findex]/180),height/2 + shortmag*Math.sin(Math.PI*ecaldata.short_phase[findex]/180),20);
+    text("SHORT",width/2 + shortmag*Math.cos(Math.PI*ecaldata.short_phase[findex]/180),height/2 + shortmag*Math.sin(Math.PI*ecaldata.short_phase[findex]/180) - 30);
+
+    fill("green");
+    stroke("green");
+    openmag = map(ecaldata.open_linmag[findex],0,1,0,width/2);
+    circle(width/2 + openmag*Math.cos(Math.PI*ecaldata.open_phase[findex]/180),height/2 + openmag*Math.sin(Math.PI*ecaldata.open_phase[findex]/180),20);
+    text("OPEN",width/2 + openmag*Math.cos(Math.PI*ecaldata.open_phase[findex]/180),height/2 + openmag*Math.sin(Math.PI*ecaldata.open_phase[findex]/180) -30)
+
+    fill("blue");
+    stroke("blue");
+    loadmag = map(ecaldata.load_linmag[findex],0,1,0,width/2);
+    circle(width/2 + loadmag*Math.cos(Math.PI*ecaldata.load_phase[findex]/180),height/2 + loadmag*Math.sin(Math.PI*ecaldata.load_phase[findex]/180),20);
+    text("LOAD",width/2 + loadmag*Math.cos(Math.PI*ecaldata.load_phase[findex]/180),height/2 + loadmag*Math.sin(Math.PI*ecaldata.load_phase[findex]/180) - 30);
+
+    fill(0);
+    stroke(0);
+    strokeWeight(1);
+    textSize(30);
+    text("f = " + (Math.round(ecaldata.fghz[findex]*10000)/10000).toString() + " GHz",10,50);
+    
+    text("Im[S_11]",width/2 + 10,50);
+    text("Re[S_11]",width - 150,height/2 - 20);
+
+    findex++;
+    if(ecaldata.fghz[findex] > 8){
+        findex = 3000;
+    }
+    
+}
+
+
+codesquaresize = 170;
+marginsize = 40;
+fontsize = 12;
+//globalurl = "http://www.trashrobot.org/qrcode.html";
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>
+<style>
+body{
+    font-family:Arial;
+    overflow:hidden;
+}
+main{
+    position:absolute;
+    right:2px;
+    top:2px;
+    z-index:-1;
+}
+main canvas{
+    border:solid;
+}
+.button{
+    border:solid;
+    border-radius:1em;
+    font-size:2em;
+    padding:0.5em 0.5em 0.5em 0.5em;
+    border-width:5px;
+    cursor:pointer;
+}
+#portselecttable .button{
+    width:2em;
+    text-align:center;
+}
+.button:hover{
+    background-color:green;
+}
+.button:active{
+    background-color:yellow;
+}
+</style>
+
+</body>
+</html>

@@ -11,6 +11,7 @@
         "ecal-db-plot.html",
         "ecal-dual-phase.html",
         "ecal-phase-plot.html",
+        "ecal.html",
         "edit-index.html",
         "edit-markdown-files.html",
         "edit-php-files.html",
@@ -24,6 +25,7 @@
         "organic-web-home.html",
         "qrcode.html",
         "quantum-calibrations.html",
+        "raw-cal-smith-chart.html",
         "raw-db-plot.html",
         "raw-phase-plot.html",
         "read-markdown-files.html",
@@ -37,6 +39,8 @@
         "dna.json",
         "experiment-control.json",
         "model.json",
+        "threepole-components.json",
+        "threepole-trace.json",
         "threepole.json"
     ],
     "css": [
@@ -47,6 +51,7 @@
         "ecal-coax-phase-s11.js",
         "ecal-db-s11.js",
         "ecal-phase-s11.js",
+        "ecaldata.js",
         "fghz.js",
         "raw-db-s11.js",
         "raw-phase-s11.js"
