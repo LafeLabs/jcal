@@ -26,23 +26,6 @@
 </head>
 <body>
 <div id = "qrcode"></div>
-<table id = "portselecttable">
-    <tr id = "buttonsrow">
-        <td class = "button">1</td>
-        <td class = "button">2</td>
-        <td class = "button">3</td>
-        <td class = "button">4</td>
-        <td class = "button">5</td>
-        <td class = "button">6</td>
-    </tr>
-</table>
-<table>
-    <tr>
-        <td class = "button" id = "shortbutton">ECAL SHORT</td>
-        <TD class = "button">ECAL OPEN</TD>
-        <TD class = "button">ECAL LOAD</TD>
-    </tr>
-</table>
 <TABLE>
     <TR>
         <TD class = "button">PHASE/MAG</TD>
@@ -51,71 +34,10 @@
 </TABLE>
 <script>
 
-buttons = document.getElementById("buttonsrow").getElementsByTagName("TD")
 
 cal = false;
 phase = true;
-ecal = false;
 
-buttons[0].onclick = function(){
-    if(cal){
-        phasewave = ecaldata.port1_phase_cal;
-    }
-    else{
-        phasewave = ecaldata.port1_phase_raw;
-    }
-    plotphasebig();
-}
-buttons[1].onclick = function(){
-    if(cal){
-        phasewave = ecaldata.port2_phase_cal;
-        
-    }
-    else{
-        phasewave = ecaldata.port2_phase_raw;
-    }
-    plotphasebig();
-}
-buttons[2].onclick = function(){
-    if(cal){
-        phasewave = ecaldata.port3_phase_cal;
-        
-    }
-    else{
-        phasewave = ecaldata.port3_phase_raw;
-    }
-    plotphasebig();
-}
-buttons[3].onclick = function(){
-    if(cal){
-        phasewave = ecaldata.port4_phase_cal;
-        
-    }
-    else{
-        phasewave = ecaldata.port4_phase_raw;
-    }
-    plotphasebig();
-}
-buttons[4].onclick = function(){
-    if(cal){
-        phasewave = ecaldata.port5_phase_cal;
-        
-    }
-    else{
-        phasewave = ecaldata.port5_phase_raw;
-    }
-    plotphasebig();
-}
-buttons[5].onclick = function(){
-    if(cal){
-        phasewave = ecaldata.port6_phase_cal;
-        
-    }
-    else{
-        phasewave = ecaldata.port6_phase_raw;
-    }
-    plotphasebig();
-}
 
 function setup() {
     squarewidth = 100;
@@ -126,18 +48,68 @@ function setup() {
         squarewidth = innerWidth - 10;
     }
     createCanvas(squarewidth,squarewidth);
-
     phasewave = ecaldata.short_phase;
     plotphasebig();
+    plotphasesmall();
 }
 
 function draw(){
     
 }
 
-document.getElementById("shortbutton").onclick = function(){
-    phasewave = ecaldata.short_phase;
-//    plotstandardmag();
+phasemaxcal =2000;
+phasemincal = -2000;
+
+function plotphasesmall(){
+    clear();
+    background("white");
+    noFill();
+    strokeWeight(4);
+    stroke(0);
+//    line(0,map(-100000,-300000,180,height,0),width,map(-100000,-300000,180,height,0));
+  //  line(0,map(-200000,-300000,180,height,0),width,map(-200000,-300000,180,height,0));    
+    fill(0);
+    strokeWeight(1);
+    textSize(30);
+
+    noFill();
+    strokeWeight(4);
+    stroke("red");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port1_phase_ecal[index],phasemincal,phasemaxcal,height,0));
+    }
+    endShape();
+    stroke("orange");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port2_phase_ecal[index],phasemincal,phasemaxcal,height,0));
+    }
+    endShape();    
+    stroke("yellow");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port3_phase_ecal[index],phasemincal,phasemaxcal,height,0));
+    }
+    endShape();    
+    stroke("green");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port4_phase_ecal[index],phasemincal,phasemaxcal,height,0));
+    }
+    endShape();    
+    stroke("blue");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port5_phase_ecal[index],phasemincal,phasemaxcal,height,0));
+    }
+    endShape();    
+    stroke("purple");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port6_phase_ecal[index],phasemincal,phasemaxcal,height,0));
+    }
+    endShape();    
 }
 
 function plotphasebig(){
@@ -149,18 +121,48 @@ function plotphasebig(){
     line(0,map(-100000,-300000,180,height,0),width,map(-100000,-300000,180,height,0));
     line(0,map(-200000,-300000,180,height,0),width,map(-200000,-300000,180,height,0));    
     fill(0);
-    strokeWeight(1);
+    strokeWeight(4);
     textSize(30);
     text("- 100,000 deg",width - 200,0.33*height - 15);
     text("- 200,000 deg",width - 200,0.66*height - 15);
     noFill();
-    strokeWeight(4);
+    strokeWeight(1);
+    stroke("red");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port1_phase_raw[index],-300000,180,height,0));
+    }
+    endShape();
+    stroke("orange");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port2_phase_raw[index],-300000,180,height,0));
+    }
+    endShape();    
+    stroke("yellow");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port3_phase_raw[index],-300000,180,height,0));
+    }
+    endShape();    
+    stroke("green");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port4_phase_raw[index],-300000,180,height,0));
+    }
+    endShape();    
     stroke("blue");
     beginShape();
     for(var index = 0; index < ecaldata.fghz.length; index++){
-        vertex(map(index,0,ecaldata.fghz.length,0,width),map(phasewave[index],-300000,180,height,0));
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port5_phase_raw[index],-300000,180,height,0));
     }
-    endShape();
+    endShape();    
+    stroke("purple");
+    beginShape();
+    for(var index = 0; index < ecaldata.fghz.length; index++){
+        vertex(map(index,0,ecaldata.fghz.length,0,width),map(ecaldata.port6_phase_raw[index],-300000,180,height,0));
+    }
+    endShape();    
 }
 
 
